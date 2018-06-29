@@ -9,11 +9,23 @@ ENV ARDUINO_VERSION="1.8.5"
 # Where Arduino IDE should be installed
 ENV ARDUINO_DIR="/opt/arduino"
 
-# Arduino built-in libraries directory
+# Arduino built-in examples
+ENV ARDUINO_EXAMPLES="${ARDUINO_DIR}/examples"
+
+# Arduino hardware
+ENV ARDUINO_HARDWARE="${ARDUINO_DIR}/hardware"
+
+# Arduino built-in libraries
 ENV ARDUINO_LIBS="${ARDUINO_DIR}/libraries"
 
-# Arduino built-in examples directory
-ENV ARDUINO_EXAMPLES="${ARDUINO_DIR}/examples"
+# Arduino tools
+ENV ARDUINO_TOOLS="${ARDUINO_HARDWARE}/tools"
+
+# Arduino tools-builder
+ENV ARDUINO_TOOLS_BUILDER="${ARDUINO_HARDWARE}/tools-builder"
+
+# Arduino boards FQBN prefix
+ENV A_FQBN="arduino:avr"
 
 # Binary directory
 ENV BIN_DIR="/usr/local/bin"
