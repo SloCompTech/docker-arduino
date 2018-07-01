@@ -31,7 +31,7 @@ ENV A_FQBN="arduino:avr"
 ENV BIN_DIR="/usr/local/bin"
 
 # Get updates and install dependencies
-RUN apt-get update && apt-get install wget tar xz-utils -y && apt-get clean && rm -rf /var/lib/apt/list/*
+RUN apt-get update && apt-get install wget tar xz-utils git -y && apt-get clean && rm -rf /var/lib/apt/list/*
 
 # Get and install Arduino IDE
 RUN wget -q https://downloads.arduino.cc/arduino-${ARDUINO_VERSION}-linux64.tar.xz -O arduino.tar.xz && \
