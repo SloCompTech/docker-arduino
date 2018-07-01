@@ -22,7 +22,7 @@ ENV ARDUINO_LIBS="${ARDUINO_DIR}/libraries"
 ENV ARDUINO_TOOLS="${ARDUINO_HARDWARE}/tools"
 
 # Arduino tools-builder
-ENV ARDUINO_TOOLS_BUILDER="${ARDUINO_HARDWARE}/tools-builder"
+ENV ARDUINO_TOOLS_BUILDER="${ARDUINO_DIR}/tools-builder"
 
 # Arduino boards FQBN prefix
 ENV A_FQBN="arduino:avr"
