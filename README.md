@@ -23,5 +23,13 @@ Images also includes enviroment variables for easier building.
 
 
 ## Examples
+Here is how would look command to compile your sketch.
+```bash
+arduino-builder -hardware ${ARDUINO_HARDWARE} -tools ${ARDUINO_TOOLS}/avr -tools ${ARDUINO_TOOLS_BUILDER} -libraries ${ARDUINO_LIBS} -libraries <your lib folder> -fqbn ${A_FQBN}:<arduino board name> <sketch>
+```
 
-Currenty there aren't any yet, but look at [documentation of arduino-builder](https://github.com/arduino/arduino-builder) and [CI tutorial](https://github.com/arduino/arduino-builder/wiki/Doing-continuous-integration-with-arduino-builder).
+**Note:** If you are running above command with `sudo docker exec <container>`, use `'`, so in the end you get `sudo docker exec <container> bash -c '<command>'`.
+
+Look at [my other repository](https://github.com/SloCompTech/QList) which uses this docker as image for building Arduino library.
+
+Currenty there aren't many yet, but look at [documentation of arduino-builder](https://github.com/arduino/arduino-builder) and [CI tutorial](https://github.com/arduino/arduino-builder/wiki/Doing-continuous-integration-with-arduino-builder).
