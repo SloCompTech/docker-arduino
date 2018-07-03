@@ -348,7 +348,7 @@ function at_build_lib() {
         IFS='/' read -ra arr1 <<< "$obj"
         [ -f "$obj/${arr1[-1]}.ino" ] || continue
         
-        ((count_total++))
+        count_total=$count_total+1
         
         if [ $# -ge 2 ]; then
             at_build_sketch $obj/${arr1[-1]}.ino $2
@@ -357,9 +357,9 @@ function at_build_lib() {
         fi
 
         if [ $? -eq 0 ]; then
-            ((count_ok++))
+            count_ok=$count_ok+1
         else
-            ((count_fail++))
+            count_fail=$count_fail+1
         fi
     done
     echo "Total: $count_total, Success: $count_ok, Fail: $count_fail"
