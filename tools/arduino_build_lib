@@ -2,4 +2,4 @@
 
 source ${A_TOOLS_DIR}/tools.sh
 
-arduino_build_lib $@
+at_build_lib $@
