@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source ${A_TOOLS_DIR}/tools.sh
+
+at_add_board_url $@
