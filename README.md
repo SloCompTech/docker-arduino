@@ -39,13 +39,13 @@ arduino --verify <sketch>
 ### Integrated commands & special directories & files
 |**Command**|**Description**|
 |:---------:|:--------------|
-|arduino_add_board_url _<url>_|Add Arduino platform url|
-|adruino_build_lib _<path to lib dir>_|Build whole libariy with examples|
-|arduino_build_sketch _<path to sketch>_|Builds sketch|
+|arduino_add_board_url _\<url>_|Add Arduino platform url|
+|adruino_build_lib _\<path to lib dir>_|Build whole libariy with examples|
+|arduino_build_sketch _\<path to sketch>_|Builds sketch|
 |arduino_emulate_gui|Starts fake GUI for Arduino IDE|
-|arduino_install_board _<boards>_|Installs additional boards|
-|arduino_install_lib _{<lib name>|<git url>}_|Installs library|
-|arduino_verify_sketch _<sketch>_| Same as arduino_build_sketch exept that command uses _arduino_ instead of _arduino-builder_|
+|arduino_install_board _\<boards>_|Installs additional boards|
+|arduino_install_lib _{\<lib name>\|\<git url>}_|Installs library|
+|arduino_verify_sketch _\<sketch>_| Same as arduino_build_sketch exept that command uses _arduino_ instead of _arduino-builder_|
 
 **Special directories**
 Home directory(/root)
@@ -83,11 +83,11 @@ Feel free to contribute
 arduino:avr:uno
 arduino:avr:pro
 arduino:avr:lilypad
-arduino:avr:mini
+arduino:avr:mini:cpu=atmega328
 arduino:avr:esplora
-arduino:avr:micro
-arduino:avr:nano
-arduino:avr:mega
+arduino:avr:micro:cpu=atmega328
+arduino:avr:nano:cpu=atmega328
+arduino:avr:mega:cpu=atmega2560
 arduino:avr:diecimila
 arduino:avr:yun
 arduino:sam:arduino_due_x
@@ -95,7 +95,6 @@ arduino:samd:arduino_zero_native
 esp8266:esp8266:huzzah:FlashSize=4M3M,CpuFrequency=80
 arduino:avr:leonardo
 adafruit:samd:adafruit_metro_m4
-arduino:avr:mega:cpu=atmega2560
 adafruit:avr:trinket5
 arduino:avr:gemma
 ```
