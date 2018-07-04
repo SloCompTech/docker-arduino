@@ -7,8 +7,9 @@
 AT_PLATFORMS="arduino_platforms.txt"
 AT_HARDWARE="arduino_hardware.txt"
 AT_TOOLS="arduino_tools.txt"
-AT_DEF_PLATFORMS=(arduino:avr:uno arduino:avr:mega arduino:avr:nano)
+AT_DEF_PLATFORMS=(arduino:avr:uno arduino:avr:mega:cpu=atmega2560 arduino:avr:nano:cpu=atmega328)
 AT_SHOW_RESULT=0
+AT_ADDITIONAL_ARGS=""
 
 # Check if url has specified extension
 function url_check_ext() {
@@ -223,7 +224,7 @@ function at_build_sketch() {
     echo "Sketch: $sketch_name"
     for board in ${platforms[*]}; do
         echo -n "   $board: "
-        output=$(arduino-builder -hardware ${ARDUINO_HARDWARE} -hardware $HOME/Arduino/hardware ${hardware_str} -tools ${ARDUINO_TOOLS}/avr -tools ${ARDUINO_TOOLS_BUILDER} -tools $HOME/Arduino/tools ${tools_str} -libraries ${ARDUINO_LIBS} -libraries $HOME/Arduino/libraries -fqbn $board $1 2>&1)
+        output=$(arduino-builder -hardware ${ARDUINO_HARDWARE} -hardware $HOME/Arduino/hardware ${hardware_str} -tools ${ARDUINO_TOOLS}/avr -tools ${ARDUINO_TOOLS_BUILDER} -tools $HOME/Arduino/tools ${tools_str} -libraries ${ARDUINO_LIBS} -libraries $HOME/Arduino/libraries ${AT_ADDITIONAL_ARGS} -fqbn $board $1 2>&1)
         if [ $? -ne 0 ]; then
             echo -e "\xe2\x9c\x96"
             if [ "$output" != "" ]; then
@@ -291,7 +292,7 @@ function at_verify_sketch() {
             echo "Failed to change the board"
             return 4
         fi
-        output=$(arduino --verify $1 2>&1)
+        output=$(arduino ${AT_ADDITIONAL_ARGS} --verify $1 2>&1)
         if [ $? -ne 0 ]; then
             echo -e "\xe2\x9c\x96"
             if [ "$output" != "" ]; then
@@ -324,10 +325,13 @@ function at_build_lib() {
     if [ ${path:${#path}-1:1} = '/' ]; then
         path=${path:0:${#path}-1}
     fi
-    if [ ! -d $1/examples ]; then
+    if [ ! -d $path/examples ]; then
         echo "No examples to build"
         return 3
     fi
+
+    # Set additional args
+    AT_ADDITIONAL_ARGS="-libraries ${path}"
 
     # Extract library name from path
     local arr
@@ -363,6 +367,9 @@ function at_build_lib() {
         fi
     done
     echo "Total: $count_total, Success: $count_ok, Fail: $count_fail"
+
+    # Remove additional args
+    AT_ADDITIONAL_ARGS=""
 
     if [ $count_fail -eq 0 ]; then return 0; else return 1; fi
 }
