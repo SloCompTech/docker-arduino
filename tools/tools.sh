@@ -29,9 +29,9 @@ function url_check_ext() {
 }
 
 # Get repo name from git URL
-function repo_get_name_from_url() {
+function get_name_from_url() {
     if [ $# -lt 1 ]; then
-        echo "Usage: repo_get_name_from_url <string>"
+        echo "Usage: get_name_from_url <string>"
         return 1
     fi
     IFS='/' read -ra arr <<< "$1"
@@ -42,7 +42,8 @@ function repo_get_name_from_url() {
     IFS='.' read -ra arr1 <<< "${arr[$arr_len-1]}"
     local arr1_len=${#arr1[*]}
     if [ $arr1_len -lt 2 ]; then
-        return 3
+        echo "${arr1[0]}"
+        return 0
     fi
     echo "${arr[$arr_len-1]:0:(${#arr[$arr_len-1]}-${#arr1[$arr1_len-1]}-1)}"
     return 0
@@ -91,7 +92,7 @@ function at_install_lib() {
         0)
             # Git URL
             local repo_name
-            repo_name=$(repo_get_name_from_url $library)
+            repo_name=$(get_name_from_url $library)
             if [ $? -ne 0 ]; then
                 echo "Unknown repo name"
                 ((count_fail++))
@@ -370,6 +371,91 @@ function at_build_lib() {
 
     # Remove additional args
     AT_ADDITIONAL_ARGS=""
+
+    if [ $count_fail -eq 0 ]; then return 0; else return 1; fi
+}
+
+# Build Arduino sketches (more sketches in folder) TODO
+function at_build_sketches() {
+    if [ $# -lt 1 ]; then
+        echo "Usage: arduino_build_sketches {<sketch>|<sketch folder>|<folder with more sketches>} [<platform>[,<platform>]]"
+        return 1
+    fi
+
+    local count_total=0
+    local count_ok=0
+    local count_fail=0
+
+    # Check if file was specified
+    if [ -f $1 ]; then
+        count_total=$((count_total+1))
+        
+        at_build_sketch $@
+
+        if [ $? -eq 0 ]; then
+            count_ok=$((count_ok+1))
+        else
+            count_fail=$((count_fail+1))
+        fi
+    elif [ -d $1 ]; then 
+        local path=$1
+        if [ ${path:${#path}-1:1} = '/' ]; then
+            path=${path:0:${#path}-1}
+        fi
+        # Directory name
+        local dir_name
+        dir_name="$(get_name_from_url $path)"
+
+        if [ $? -ne 0 ] || [ "$dir_name" = "" ]; then
+            echo "Error"
+            return 2
+        elif [ -f "$path/$dir_name.ino" ]; then
+            count_total=$((count_total+1))
+
+            if [ $# -ge 2 ]; then
+                at_build_sketch $path/$dir_name.ino $2
+            else
+                at_build_sketch $path/$dir_name.ino
+            fi
+
+            if [ $? -eq 0 ]; then
+                count_ok=$((count_ok+1))
+            else
+                count_fail=$((count_fail+1))
+            fi
+        else
+            # Go through whole directory
+            for obj in $path/*; do  
+                # Skip files because they are irrelevant
+                [ -d "$obj" ] || continue
+
+                dir_name="$(get_name_from_url $obj)"
+                if [ $? -ne 0 ] || [ -f "$obj/$dir_name.ino" ]; then
+                    count_total=$((count_total+1))
+
+                    if [ $# -ge 2 ]; then
+                        at_build_sketch $obj/$dir_name.ino $2
+                    else
+                        at_build_sketch $obj/$dir_name.ino
+                    fi
+
+                    if [ $? -eq 0 ]; then
+                        count_ok=$((count_ok+1))
+                    else
+                        count_fail=$((count_fail+1))
+                    fi
+                else
+                    # Skipping folder
+                    echo -n ""
+                fi
+            done
+        fi
+    else
+        echo "Not a file or directory"
+        return 2
+    fi
+
+    echo "Total: $count_total, Success: $count_ok, Fail: $count_fail"
 
     if [ $count_fail -eq 0 ]; then return 0; else return 1; fi
 }

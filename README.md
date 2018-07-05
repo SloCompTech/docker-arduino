@@ -42,10 +42,13 @@ arduino --verify <sketch>
 |arduino_add_board_url _\<url>_|Add Arduino platform url|
 |adruino_build_lib _\<path to lib dir>_|Build whole libariy with examples|
 |arduino_build_sketch _\<path to sketch>_|Builds sketch|
+|arduino_build_sketches _\<path to folder or sketch>_|Builds folder which contains sketch or folders with sketches or sketch itself|
 |arduino_emulate_gui|Starts fake GUI for Arduino IDE|
 |arduino_install_board _\<boards>_|Installs additional boards|
 |arduino_install_lib _{\<lib name>\|\<git url>}_|Installs library|
 |arduino_verify_sketch _\<sketch>_| Same as arduino_build_sketch exept that command uses _arduino_ instead of _arduino-builder_|
+
+**Note:** Scripts for building libs and multiple sketches expect that sketch has same name as folder and .ino extension.
 
 **Special directories**
 Home directory(/root)
