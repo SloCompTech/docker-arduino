@@ -1,5 +1,7 @@
 # Docker Arduino
 
+[![Build Status](https://travis-ci.org/SloCompTech/docker-arduino.svg?branch=master)](https://travis-ci.org/SloCompTech/docker-arduino)
+
 ## What it is docker-arduino ?
 _Docker-arduino_ is **docker image** for simple building and testing _Arduino_ **sketches** and **libraries**.
 

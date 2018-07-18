@@ -1,0 +1,25 @@
+#
+#   Travis CI - Docker build & test script
+#   
+#   By: Martin Dagarin
+#   Version: 1.1
+#
+
+sudo: true
+dist: trusty
+language: generic
+
+services:
+  - docker
+
+# Add other enviroment variables via bash
+before_script:
+- export IMG_NAME="$(echo ${TRAVIS_REPO_SLUG} | tr '[:upper:]' '[:lower:]')"
+- export IMG_BRANCH="${TRAVIS_BRANCH}"
+
+# Build docker
+- sudo docker build -t ${IMG_NAME} .
+
+# Docker tests
+script:
+- echo "Currenty not test is available"
