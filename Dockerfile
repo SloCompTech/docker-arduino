@@ -1,10 +1,7 @@
-FROM ubuntu:latest
+FROM debian:stretch-slim
 
-# Version of docker & arduino IDE
+# Version of arduino IDE
 ARG VERSION="1.8.5"
-
-# Add properties to container
-LABEL maintainer="Martin Dagarin <martin.dagarin@gmail.com>" version=$VERSION
 
 # Version of Arduino IDE to download
 ENV ARDUINO_VERSION=$VERSION
