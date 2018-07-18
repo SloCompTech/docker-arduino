@@ -57,7 +57,8 @@ RUN wget -q https://downloads.arduino.cc/arduino-${ARDUINO_VERSION}-linux64.tar.
 # Install additional commands & directories
 RUN mkdir ${A_TOOLS_DIR}
 COPY tools/* ${A_TOOLS_DIR}/
-RUN ln -s ${A_TOOLS_DIR}/* ${A_BIN_DIR}/ && \
+RUN chmod +x ${A_TOOLS_DIR}/* && \
+    ln -s ${A_TOOLS_DIR}/* ${A_BIN_DIR}/ && \
     mkdir ${A_HOME}/Arduino && \
     mkdir ${A_HOME}/Arduino/libraries && \
     mkdir ${A_HOME}/Arduino/hardware && \
